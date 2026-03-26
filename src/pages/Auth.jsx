@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api, { API_BASE_URL } from '../services/api';
 
 /**
  * Authentication page component.
@@ -22,7 +22,7 @@ function Auth() {
     try {
       if (isLogin) {
         // Handle Login
-        const response = await axios.post('http://localhost:8081/api/auth/login', {
+        const response = await api.post('/auth/login', {
           email,
           password,
           role
@@ -39,7 +39,7 @@ function Auth() {
         }
       } else {
         // Handle Registration
-        const response = await axios.post('http://localhost:8081/api/auth/register', {
+        const response = await api.post('/auth/register', {
           name,
           email,
           password,
@@ -59,10 +59,14 @@ function Auth() {
       }
     } catch (err) {
       console.error("Auth error:", err);
-      if (err.response && err.response.data && err.response.data.error) {
+      if (!err.response) {
+        setError(`Cannot reach backend (${API_BASE_URL}). Check Vercel REACT_APP_API_BASE_URL, Render CORS, and backend uptime.`);
+      } else if (err.response.data && err.response.data.error) {
         setError(err.response.data.error);
+      } else if (err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
       } else {
-        setError("An error occurred. Please try again.");
+        setError(`Request failed (${err.response.status}). Please try again.`);
       }
     }
   };

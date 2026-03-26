@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api from '../services/api';
+import api, { buildBackendUrl } from '../services/api';
 
 /**
  * AdminDashboard component.
@@ -165,8 +165,8 @@ function AdminDashboard() {
                 <td>{complaint.location}</td>
                 <td>
                   {complaint.imageUrl ? (
-                    <a href={`http://localhost:8081${complaint.imageUrl}`} target="_blank" rel="noopener noreferrer">
-                      <img src={`http://localhost:8081${complaint.imageUrl}`} alt="Attachment" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #ccc' }} />
+                    <a href={buildBackendUrl(complaint.imageUrl)} target="_blank" rel="noopener noreferrer">
+                      <img src={buildBackendUrl(complaint.imageUrl)} alt="Attachment" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #ccc' }} />
                     </a>
                   ) : (
                     <span style={{ color: '#888', fontSize: '0.85rem' }}>None</span>
