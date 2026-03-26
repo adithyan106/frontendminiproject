@@ -15,9 +15,7 @@ const envApiBaseUrl = process.env.REACT_APP_API_BASE_URL
   ? process.env.REACT_APP_API_BASE_URL.trim().replace(/\/+$/, '')
   : '';
 
-const resolvedApiBaseUrl = isLocalhost
-  ? (envApiBaseUrl || defaultApiBaseUrl)
-  : defaultApiBaseUrl;
+const resolvedApiBaseUrl = envApiBaseUrl || defaultApiBaseUrl;
 
 export const API_BASE_URL = resolvedApiBaseUrl;
 
