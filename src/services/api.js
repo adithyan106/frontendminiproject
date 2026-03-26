@@ -9,15 +9,15 @@ const isLocalhost = browserLocation
   ? browserLocation.hostname === 'localhost' || browserLocation.hostname === '127.0.0.1'
   : false;
 
-const defaultApiBaseUrl = browserLocation && !isLocalhost
-  ? `${browserLocation.origin}/api`
-  : 'http://localhost:8081/api';
+const defaultApiBaseUrl = isLocalhost ? 'http://localhost:8081/api' : '/api';
 
 const envApiBaseUrl = process.env.REACT_APP_API_BASE_URL
   ? process.env.REACT_APP_API_BASE_URL.trim().replace(/\/+$/, '')
   : '';
 
-const resolvedApiBaseUrl = envApiBaseUrl || defaultApiBaseUrl;
+const resolvedApiBaseUrl = isLocalhost
+  ? (envApiBaseUrl || defaultApiBaseUrl)
+  : defaultApiBaseUrl;
 
 export const API_BASE_URL = resolvedApiBaseUrl;
 
